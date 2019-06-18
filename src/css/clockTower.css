@@ -1,0 +1,104 @@
+#ClockTower {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    min-height: 100vh;
+    transition: background-color 2s;
+    -webkit-transition: background-color 2s;
+    width: 100%;
+}
+
+.night { background-color: blueviolet }
+.dawn { background-color: orange }
+.day { background-color: yellow }
+
+#ClockTower-startTime {
+    
+}
+
+#ClockTower-endTime {
+    
+}
+
+.clockField {
+    background-color: black;
+    color: greenyellow;
+    padding: 10px;
+}
+
+.clockField:disabled {
+    background-color: darkgrey;
+}
+
+#ClockTower-startClock {
+    
+}
+
+#ClockTower-bellCounterResults {
+
+}
+
+#ClockTower-clockTower {
+    background: url('../images/clock-tower.png') no-repeat;
+    background-size: contain;
+    height: 390px;
+    position: relative;
+    width: 150px;
+}
+
+/* .deg0 {
+    transform: rotate(0deg);
+}
+.deg90 {
+    transform: rotate(90deg);
+}
+.deg180 {
+    transform: rotate(180deg);
+}
+.deg270 {
+    transform: rotate(270deg);
+} */
+
+#ClockTower-hourHand {
+    /* animation: hands-spin infinite 6s linear; */
+    background: url('../images/hour-hand.png') no-repeat;
+    background-size: contain;
+    height: 23px;
+    top: 220px;
+}
+
+#ClockTower-minuteHand {
+    /* animation: hands-spin infinite 1s linear; */
+    background: url('../images/minute-hand.png') no-repeat;
+    background-size: contain;
+    height: 34px;
+    top: 209px;
+}
+
+#ClockTower-center {
+    background-color: black;
+    border-radius: 5px;
+    height: 10px;
+    left: 60px;
+    position: absolute;
+    top: 238px;
+    width: 10px
+}
+
+.ClockTower-hand {
+    left: 61px;
+    position: absolute;
+    transform-origin: bottom center;
+    width: 8px;
+}
+
+/* @keyframes hands-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+} */
