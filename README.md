@@ -7,7 +7,7 @@ cd clock-tower-bell-counter
 npm install
 npm test
 npm start
-'''
+```
 
 ## About The App
 
