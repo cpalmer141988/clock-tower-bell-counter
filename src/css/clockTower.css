@@ -1,3 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Digital';
+    src: url('../fonts/digital-7.regular.ttf');
+}
+
+.night { background-color: blueviolet }
+.dawn { background-color: orange }
+.day { background-color: yellow }
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
 #ClockTower {
     align-items: center;
     display: flex;
@@ -10,33 +28,97 @@
     width: 100%;
 }
 
-.night { background-color: blueviolet }
-.dawn { background-color: orange }
-.day { background-color: yellow }
-
-#ClockTower-startTime {
-    
-}
-
-#ClockTower-endTime {
-    
-}
-
-.clockField {
+#ClockTower h1 {
     background-color: black;
     color: greenyellow;
+    font-family: 'Digital';
+    margin: 0 0 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+#ClockTower form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    width: 250px;
+}
+
+.digitalClock {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+
+.digitalClock label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.digitalClock input {
+    background-color: black;
+    color: greenyellow;
+    font-family: 'Digital';
+    font-size: 30px;
+    margin-bottom: 10px;
     padding: 10px;
+    text-align: center;
+}
+
+#ClockTower-currentTime {
+    align-items: center;
+    display: flex;
+    width: 150px;
+}
+
+#ClockTower-currentTime div {
+    background-color: black;
+    border: 2px solid lightgrey;
+    color: greenyellow;
+    display: flex;
+    font-family: 'Digital';
+    font-size: 30px;
+    padding: 10px;
+    justify-content: center;
+    width: 100px;
+}
+
+#ClockTower-currentTime div span {
+    text-align: right;
+    width: 16px;
+}
+
+#ClockTower-currentTime div span.colon {
+    text-align: center;
 }
 
 .clockField:disabled {
     background-color: darkgrey;
 }
 
+#ClockTower button {
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 10px;
+    width: 100px;
+}
+
 #ClockTower-startClock {
     
 }
 
-#ClockTower-bellCounterResults {
+#ClockTower-bellCounter {
+    align-items: center;
+    display: flex;
+}
+
+#ClockTower-bellCounter h2 {
+    margin-right: 15px;
+}
+
+#ClockTower-bellCounter p {
 
 }
 
@@ -44,22 +126,10 @@
     background: url('../images/clock-tower.png') no-repeat;
     background-size: contain;
     height: 390px;
+    left: 8px;
     position: relative;
     width: 150px;
 }
-
-/* .deg0 {
-    transform: rotate(0deg);
-}
-.deg90 {
-    transform: rotate(90deg);
-}
-.deg180 {
-    transform: rotate(180deg);
-}
-.deg270 {
-    transform: rotate(270deg);
-} */
 
 #ClockTower-hourHand {
     /* animation: hands-spin infinite 6s linear; */
@@ -93,12 +163,3 @@
     transform-origin: bottom center;
     width: 8px;
 }
-
-/* @keyframes hands-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-} */

@@ -217,39 +217,65 @@ export class ClockTower extends Component {
     }
 
     render() {
-        const { startTime, endTime } = this.state
-        let running = this.state.running ? 'disabled' : ''
-        let startTimeClass = this.state.startTime.isValid ? 'success' : 'error'
-        let endTimeClass = this.state.endTime.isValid ? 'success' : 'error'
-        let startClockEnabled = !this.state.running && (this.state.startTime.isValid && this.state.endTime.isValid) ? '' : 'disabled'
-        let stopClockEnabled = this.state.running ? '' : 'disabled'
+        const { running, startTime, endTime, currentTime } = this.state
+        let disabled = running ? 'disabled' : ''
+        let startTimeClass = startTime.isValid ? '' : 'error'
+        let endTimeClass = endTime.isValid ? '' : 'error'
+        let startClockEnabled = !running && (startTime.isValid && endTime.isValid) ? '' : 'disabled'
+        let stopClockEnabled = running ? '' : 'disabled'
+
+        let currentHour = currentTime.hour
+        let hourText = (currentHour < 10) ? ('0'+currentHour) : currentHour
+        let currentMinute = currentTime.minute
+        let minuteText = (currentMinute < 10) ? ('0'+currentMinute) : currentMinute
+        let currentTimeText = hourText + ':' + minuteText
+        let cttDigit1 = currentTimeText.substr(0,1)
+        let cttDigit2 = currentTimeText.substr(1,1)
+        let cttDigit3 = currentTimeText.substr(3,1)
+        let cttDigit4 = currentTimeText.substr(4,1)
 
         return (
             <div id="ClockTower" className={this.state.lightCycle}>
+                <h1>Clock Tower Bell Counter App</h1>
                 <form>
-                    <div>
+                    <div className='digitalClock'>
                         <label className={startTimeClass}>Start Time</label>
-                        <input id='ClockTower-startTime' className='clockField' 
+                        <input
                             type='text' 
                             prop='startTime'
                             value={startTime.text}
                             onChange={this.changeTime} 
-                            disabled={running}
+                            disabled={disabled}
                         />
                     </div>
-                    <div>
+                    <div className='digitalClock'>
                         <label className={endTimeClass}>End Time</label>
-                        <input id='ClockTower-endTime' className='clockField' 
+                        <input
                             type='text'
                             prop='endTime'
                             value={endTime.text}
                             onChange={this.changeTime} 
-                            disabled={running}
+                            disabled={disabled}
                         />
                     </div>
-                    <button id='ClockTower-startClock' onClick={this.startClock} disabled={startClockEnabled}>Start Clock</button>
-                    <button id='ClockTower-startClock' onClick={this.stopClock} disabled={stopClockEnabled}>Stop Clock</button>
+                    <button onClick={this.startClock} disabled={startClockEnabled}>Start Clock</button>
+                    <button onClick={this.stopClock} disabled={stopClockEnabled}>Stop Clock</button>
                 </form>
+                <div id="ClockTower-currentTime" className='digitalClock'>
+                    <label>Current Time</label>
+                    <div>
+                        <span>{cttDigit1}</span>
+                        <span>{cttDigit2}</span>
+                        <span className='colon'>:</span>
+                        <span>{cttDigit3}</span>
+                        <span>{cttDigit4}</span>
+                    </div>
+                    {/* <input
+                        type='text'
+                        value={currentTimeText}
+                        disabled='disabled'
+                    /> */}
+                </div>
                 <ClockTowerBellCounter bellCount={this.state.bellCount} />
                 <ClockTowerRenderer currentTime={this.state.currentTime} />
             </div>

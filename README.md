@@ -1,3 +1,14 @@
+# Clock Tower Bell Counter App
+
+## How To Use
+```
+git clone 
+cd clock-tower-bell-counter
+npm install
+npm test
+npm start
+'''
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
