@@ -33,8 +33,8 @@ export class ClockTower extends Component {
 
     changeTime = (event) => {
         var isValid = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])(:[0-5][0-9])?$/.test(event.target.value);
-        let prop = event.target.getAttribute('prop')
-        let value = event.target.value
+        let prop = event.target.getAttribute('prop');
+        let value = event.target.value;
 
         if (isValid) {
             this.setState({
@@ -44,8 +44,6 @@ export class ClockTower extends Component {
                     minute: this.updateMinute(value),
                     isValid: true
                 }
-            }, () => {
-                //console.log(this.state)
             })
         } else {
             this.setState({
@@ -55,13 +53,11 @@ export class ClockTower extends Component {
                     minute: this.state[prop].minute,
                     isValid: false
                 }
-            }, () => {
-                //console.log(this.state)
             })
         }
     }
 
-    startClock = (event) => {
+    startClock = (event = false) => {
         //console.log('Clock Started')
         this.setState({
             running: true,
@@ -71,48 +67,52 @@ export class ClockTower extends Component {
                 minute: this.state.startTime.minute
             }
         }, () => {
-            //console.log(this.state)
             this.updateBellCount()
             this.updateLightCycle()
             this.tick()
         })
-        event.preventDefault()
+        if (event)
+            event.preventDefault();
     }
 
     tick() {
         if (this.state.running) {
-            this.incrementMinute()
+            this.incrementMinute();
         }
     }
 
     incrementMinute() {
-        let minute = this.state.currentTime.minute
+        let minute = this.state.currentTime.minute;
         if (minute === 59) {
-            this.incrementHour()
+            this.incrementHour();
         } else {
-            minute++
+            minute++;
             this.setState({
                 currentTime: {
                     hour: this.state.currentTime.hour,
                     minute: minute
                 }
             }, () => {
-                let stop = this.shouldStopClock()
+                let stop = this.shouldStopClock();
                 if (stop) {
-                    this.stopClock()
+                    this.stopClock();
                 } else {
-                    setTimeout(this.tick.bind(this), this.state.runSpeed)
+                    // This allows the tests to bypass using timeouts, which caused them to end prematurely
+                    if (this.state.runSpeed === 0)
+                        this.tick();
+                    else
+                        setTimeout(this.tick.bind(this), this.state.runSpeed);
                 }
             })
         }
     }
 
     incrementHour() {
-        let hour = this.state.currentTime.hour
+        let hour = this.state.currentTime.hour;
         if (hour === 23) {
-            hour = 0
+            hour = 0;
         } else {
-            hour++
+            hour++;
         }
 
         this.setState({
@@ -121,24 +121,27 @@ export class ClockTower extends Component {
                 minute: 0
             }
         }, () => {
-            this.updateBellCount()
-            this.updateLightCycle()
-            let stop = this.shouldStopClock()
+            this.updateBellCount();
+            this.updateLightCycle();
+            let stop = this.shouldStopClock();
             if (stop) {
-                this.stopClock()
+                this.stopClock();
             } else {
-                setTimeout(this.tick.bind(this), this.state.runSpeed)
+                // This allows the tests to bypass using timeouts, which caused them to end prematurely
+                if (this.state.runSpeed === 0)
+                    this.tick();
+                else
+                    setTimeout(this.tick.bind(this), this.state.runSpeed);
             }
         })
     }
 
     updateBellCount() {
-        let hour = this.state.currentTime.hour
-        let minute = this.state.currentTime.minute
-        let bellCount = this.state.bellCount
+        let hour = this.state.currentTime.hour;
+        let minute = this.state.currentTime.minute;
+        let bellCount = this.state.bellCount;
         if (minute === 0) {
-            let increment = (hour === 0) ? 12 : ((hour > 12) ? hour - 12 : hour)
-            //console.log('The current hour is ' + hour + ' and the amount to increment by is ' + increment)
+            let increment = (hour === 0) ? 12 : ((hour > 12) ? hour - 12 : hour);
             this.setState({
                 bellCount: bellCount += increment
             })
@@ -146,12 +149,12 @@ export class ClockTower extends Component {
     }
 
     shouldStopClock() {
-        let currentTime = this.state.currentTime
-        let endTime = this.state.endTime
+        let currentTime = this.state.currentTime;
+        let endTime = this.state.endTime;
         if (currentTime.hour === endTime.hour && currentTime.minute === endTime.minute) {
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
     }
 
@@ -159,25 +162,23 @@ export class ClockTower extends Component {
         //console.log('Clock Stopped')
         this.setState({
             running: false
-        }, () => {
-            //console.log(this.state)
         })
         if (event)
-            event.preventDefault()
+            event.preventDefault();
     }
 
     updateHour(timeString) {
-        let divider = timeString.indexOf(':')
-        return parseInt(timeString.substr(0,divider))
+        let divider = timeString.indexOf(':');
+        return parseInt(timeString.substr(0,divider));
     }
 
     updateMinute(timeString) {
-        let divider = timeString.indexOf(':')
-        return parseInt(timeString.substr(divider+1))
+        let divider = timeString.indexOf(':');
+        return parseInt(timeString.substr(divider+1));
     }
 
     updateLightCycle() {
-        let hour = this.state.currentTime.hour
+        let hour = this.state.currentTime.hour;
         switch (hour) {
             case 6:
             case 7:
@@ -187,8 +188,6 @@ export class ClockTower extends Component {
             case 20:
                 this.setState({
                     lightCycle: 'dawn'
-                }, () => {
-                    //console.log(this.state.lightCycle)
                 })
                 break; 
             case 9:
@@ -202,37 +201,33 @@ export class ClockTower extends Component {
             case 17:
                 this.setState({
                     lightCycle: 'day'
-                }, () => {
-                    //console.log(this.state.lightCycle)
                 })
                 break;
             default:
                 this.setState({
                     lightCycle: 'night'
-                }, () => {
-                    //console.log(this.state.lightCycle)
                 })
                 break;
         }
     }
 
     render() {
-        const { running, startTime, endTime, currentTime } = this.state
-        let disabled = running ? 'disabled' : ''
-        let startTimeClass = startTime.isValid ? '' : 'error'
-        let endTimeClass = endTime.isValid ? '' : 'error'
-        let startClockEnabled = !running && (startTime.isValid && endTime.isValid) ? '' : 'disabled'
-        let stopClockEnabled = running ? '' : 'disabled'
+        const { running, startTime, endTime, currentTime } = this.state;
+        let disabled = running ? 'disabled' : '';
+        let startTimeClass = startTime.isValid ? '' : 'error';
+        let endTimeClass = endTime.isValid ? '' : 'error';
+        let startClockEnabled = !running && (startTime.isValid && endTime.isValid) ? '' : 'disabled';
+        let stopClockEnabled = running ? '' : 'disabled';
 
-        let currentHour = currentTime.hour
-        let hourText = (currentHour < 10) ? ('0'+currentHour) : currentHour
-        let currentMinute = currentTime.minute
-        let minuteText = (currentMinute < 10) ? ('0'+currentMinute) : currentMinute
-        let currentTimeText = hourText + ':' + minuteText
-        let cttDigit1 = currentTimeText.substr(0,1)
-        let cttDigit2 = currentTimeText.substr(1,1)
-        let cttDigit3 = currentTimeText.substr(3,1)
-        let cttDigit4 = currentTimeText.substr(4,1)
+        let currentHour = currentTime.hour;
+        let hourText = (currentHour < 10) ? ('0'+currentHour) : currentHour;
+        let currentMinute = currentTime.minute;
+        let minuteText = (currentMinute < 10) ? ('0'+currentMinute) : currentMinute;
+        let currentTimeText = hourText + ':' + minuteText;
+        let cttDigit1 = currentTimeText.substr(0,1);
+        let cttDigit2 = currentTimeText.substr(1,1);
+        let cttDigit3 = currentTimeText.substr(3,1);
+        let cttDigit4 = currentTimeText.substr(4,1);
 
         return (
             <div id="ClockTower" className={this.state.lightCycle}>
